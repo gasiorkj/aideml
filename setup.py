@@ -8,13 +8,12 @@ with open("requirements.txt", "r") as f:
 
 setup(
     name="aideml",
-    version="0.2.0",
     author="Weco AI",
     author_email="contact@weco.ai",
     description="Autonomous AI for Data Science and Machine Learning",
     long_description=long_description,
     long_description_content_type="text/markdown",
-    url="https://github.com/Wecoai/aideml",
+    url="https://github.com/gasiorkj/aideml",
     packages=find_packages(),
     package_data={
         "aide": [
