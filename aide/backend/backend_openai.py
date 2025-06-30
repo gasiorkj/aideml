@@ -3,6 +3,7 @@
 import json
 import logging
 import time
+import os
 
 from .utils import FunctionSpec, OutputType, opt_messages_to_list, backoff_create
 from funcy import notnone, once, select_values
@@ -19,12 +20,20 @@ OPENAI_TIMEOUT_EXCEPTIONS = (
     openai.InternalServerError,
 )
 
-
 @once
 def _setup_openai_client():
     global _client
     _client = openai.OpenAI(max_retries=0)
-
+    if os.getenv("RITS_API_KEY"):
+        _client = openai.Client(
+        api_key=os.getenv("RITS_API_KEY"),  
+        base_url="https://inference-3scale-apicast-production.apps.rits.fmaas.res.ibm.com/llama-3-3-70b-instruct/v1",
+        default_headers={"RITS_API_KEY": os.getenv("RITS_API_KEY")},
+        timeout=120.0,
+        max_retries=5,
+    )
+    else:
+        _client = openai.OpenAI(max_retries=0)
 
 def query(
     system_message: str | None,
