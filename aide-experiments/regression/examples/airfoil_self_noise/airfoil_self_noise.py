@@ -1,6 +1,4 @@
 import aide
-import os
-#print(os.getenv("RITS_API_KEY"))
 
 if __name__ == "__main__":
     exp = aide.Experiment(
