@@ -1,7 +1,6 @@
 import csv
 
 def arff_to_csv(arff_filename, csv_filename):
-    csv_filename = "aide-experiments/classification/csvs/"
     with open(arff_filename, 'r') as arff_file:
         lines = arff_file.readlines()
 
@@ -31,4 +30,4 @@ def arff_to_csv(arff_filename, csv_filename):
 
 
 
-arff_to_csv('aide-experiments/classification/datasets/employee', '/Users/jogasior-kavishe/Desktop/aideml/aide-experiments/classification/csvs/employee.csv')
+arff_to_csv('/Users/jogasior-kavishe/Desktop/aideml/aide-experiments/regression/datasets/solar_flare', '/Users/jogasior-kavishe/Desktop/aideml/aide-experiments/regression/csvs/solar_flare.csv')

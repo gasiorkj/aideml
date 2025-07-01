@@ -13,7 +13,6 @@ setup(
     description="Autonomous AI for Data Science and Machine Learning",
     long_description=long_description,
     long_description_content_type="text/markdown",
-    url="https://github.com/gasiorkj/aideml",
     packages=find_packages(),
     package_data={
         "aide": [

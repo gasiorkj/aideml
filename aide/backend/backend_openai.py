@@ -8,6 +8,7 @@ import os
 from .utils import FunctionSpec, OutputType, opt_messages_to_list, backoff_create
 from funcy import notnone, once, select_values
 import openai
+from openai import OpenAI
 
 logger = logging.getLogger("aide")
 
@@ -25,10 +26,10 @@ def _setup_openai_client():
     global _client
     _client = openai.Client(
     api_key=os.getenv("OPENAI_API_KEY"),  
-    base_url="https://inference-3scale-apicast-production.apps.rits.fmaas.res.ibm.com/llama-4-mvk-17b-128e-fp8/v1",
-    default_headers={"RITS_API_KEY": os.getenv("RITS_API_KEY")},
+    base_url=os.getenv("OPENAI_BASE_URL"),
     timeout=120.0,
     max_retries=5)
+
 
 
 def query(

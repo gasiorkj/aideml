@@ -309,19 +309,41 @@ class Agent:
             "Execution output": wrap_code(node.term_out, lang=""),
         }
 
-        response = cast(
-            dict,
-            query(
-                system_message=prompt,
-                user_message=None,
-                func_spec=review_func_spec,
-                model=self.acfg.feedback.model,
-                temperature=self.acfg.feedback.temp,
-            ),
+        # response = cast(
+        #     dict,
+        #     query(
+        #         system_message=prompt,
+        #         user_message=None,
+        #         func_spec=review_func_spec,
+        #         model=self.acfg.feedback.model,
+        #         temperature=self.acfg.feedback.temp,
+        #     ),
+        # )
+        response = query(
+            system_message=prompt,
+            user_message=None,
+            func_spec=review_func_spec,
+            model=self.acfg.feedback.model,
+            temperature=self.acfg.feedback.temp,
         )
 
         # if the metric isn't a float then fill the metric with the worst metric
-        if not isinstance(response["metric"], float):
+        # if not isinstance(response["metric"], float):
+        #     print("WARNING: Expected dict, got", type(response), response)
+        #     response = {"metric": None}
+
+        # elif not isinstance(response["metric"], float):
+        #     response["metric"] = None
+        if not isinstance(response, dict):
+            logger.warning(f"Expected dict response, got {type(response)}: {response}")
+            response = {
+                "is_bug": True,
+                "summary": "Invalid response from LLM.",
+                "metric": None,
+                "lower_is_better": True,
+            }
+        # Fill missing or bad metric with None
+        elif "metric" not in response or not isinstance(response["metric"], float):
             response["metric"] = None
 
         node.analysis = response["summary"]
